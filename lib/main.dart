@@ -1,12 +1,24 @@
 // lib/main.dart
 
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart'; // 👈 Importante
+import 'firebase_options.dart'; // 👈 Archivo generado por FlutterFire CLI
+
 import 'screens/auth/login_screen.dart';
 import 'screens/auth/register_screen.dart';
 import 'screens/main_handler.dart';
 import 'screens/perfil/personalizar_screen.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // 👈 Necesario para usar Firebase antes del runApp
+
+  // Inicializa Firebase con la configuración según la plataforma
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  print('✅ Firebase inicializado correctamente');
+
   runApp(const MikunchikApp());
 }
 
@@ -23,9 +35,9 @@ class MikunchikApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
       ),
       debugShowCheckedModeBanner: false,
-      // La ruta inicial de la aplicación.
+      // Ruta inicial
       initialRoute: '/login',
-      // Definición de las rutas nombradas para una navegación limpia.
+      // Rutas nombradas
       routes: {
         '/login': (context) => const LoginScreen(),
         '/register': (context) => const RegisterScreen(),
